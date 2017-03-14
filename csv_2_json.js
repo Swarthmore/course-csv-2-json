@@ -35,7 +35,7 @@ var multiValued = {};
 csv.fromPath(csvFile, {headers : headerRow, delimiter: '\t'}).on("data", function(data){
   delete data[''];
   courseData.push(data);
-  //rememeber the multivalued items, parsed into arrays later
+  //remember the multivalued items, parsed into arrays later
   for (var key in data){
     if (data[key].search(/<br\/?>|\|/) != -1){
       multiValued[key] = true;
@@ -48,7 +48,7 @@ csv.fromPath(csvFile, {headers : headerRow, delimiter: '\t'}).on("data", functio
     for (var key in multiValued){
       reduceArray = true;
       courseData[i][key] = (courseData[i][key].length) ? courseData[i][key].split(/<br\/?>|\|/) : [];
-      //check to see if all values in the array are unique, if so reduce to a single value
+      //check to see if all values in the array are unique. If so, reduce to a single value
       if (courseData[i][key].length > 1 ){
         for (var i2 = 1; i2 < courseData[i][key].length; i2++) {
           if (courseData[i][key][i2] !== courseData[i][key][0])
