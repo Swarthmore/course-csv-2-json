@@ -1,4 +1,6 @@
 var csv = require("fast-csv");
+//realtive path to the csv file to parse
+var csvFile = "./SWAT_TriCoGuide.csv";
 //define the header row for the CSV (this will be object keys)
 var headerRow = [
   'Campus',
@@ -30,7 +32,7 @@ var headerRow = [
 var courseData = [];
 var multiValued = {};
 
-csv.fromPath("SWAT_TriCoGuide.csv", {headers : headerRow, delimiter: '\t'}).on("data", function(data){
+csv.fromPath(csvFile, {headers : headerRow, delimiter: '\t'}).on("data", function(data){
   delete data[''];
   courseData.push(data);
   //rememeber the multivalued items, parsed into arrays later
