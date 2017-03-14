@@ -1,5 +1,5 @@
 var csv = require("fast-csv");
-//realtive path to the csv file to parse
+//realative path to the csv file to parse
 var csvFile = "./SWAT_TriCoGuide.csv";
 //define the header row for the CSV (this will be object keys)
 var headerRow = [
