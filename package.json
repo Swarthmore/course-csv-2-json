@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "elasticsearch": "^13.0.0-rc2",
     "fast-csv": "^2.4.0"
   }
 }

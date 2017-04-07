@@ -1,4 +1,7 @@
 var csv = require("fast-csv");
+var fs = require("fs");
+var path = require('path');
+
 //realative path to the csv file to parse
 var csvFile = "./SWAT_TriCoGuide.csv";
 //define the header row for the CSV (this will be object keys)
@@ -101,5 +104,33 @@ csv.fromPath(csvFile, {headers : headerRow, delimiter: '\t'}).on("data", functio
           });
   });
 
-    console.log(esData);
+
+  //write the json data file
+  writeJSON(esData, "swat.json");
+
 });
+
+function writeJSON(data, fileName){
+  var dataFile = path.join(__dirname, fileName);
+  var writeFile = false;
+  fs.stat(dataFile, function (err, stats){
+    if (err){
+      writeFile = true;
+    } else {
+      try {
+        var oldData = require(dataFile);
+        writeFile = !myObjCompare(oldData, data);
+      } catch (e){
+         writeFile = true;
+      }
+    }
+    if (writeFile){
+      fs.writeFile(dataFile, JSON.stringify(data), function(err) {
+        if (err) {
+          console.log("Error writing to file " + dataFile + ": " + err.message);
+        }
+        console.log("Data file, " + dataFile + ", was just updated");
+      });
+    }
+  });
+}
