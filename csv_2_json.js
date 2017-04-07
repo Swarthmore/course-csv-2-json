@@ -62,5 +62,44 @@ csv.fromPath(csvFile, {headers : headerRow, delimiter: '\t'}).on("data", functio
     }
   }
   //todo save output to file
-  console.log(courseData);
+  //console.log(courseData);
+
+  //transform this data into the desired format
+  let esData = [];
+  let campusName, courseId;
+  courseData.forEach(function(course){
+    switch (course.Campus){
+      case "B":
+        campusName = "Bryn Mawr";
+        break;
+      case "H":
+        campusName = "Haverford";
+        break;
+      case "S":
+      default:
+        campusName = "Swarthmore";
+        courseId = [campusName, course.Prefix, course.Code].join(" ").replace(/\s+/g, "_");
+        break;
+    }
+    console.log(course.Semester);
+    console.log(courseId);
+    esData.push({
+            _index: 'courses',
+            _type: 'course',
+            _id: courseId,
+            body: {
+              "campus": campusName,
+              "program": course.Program,
+              "semester": course.Semester,
+              "courseNumber": [course.Prefix, course.Code].join(" "),
+              "name": course.Name,
+              "description": course.ExtendedInfo,
+              "instructor": course.Instructor,
+              "day": course.Day,
+              "time": course.Time
+            }
+          });
+  });
+
+    console.log(esData);
 });
